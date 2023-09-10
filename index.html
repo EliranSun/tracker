@@ -7,25 +7,15 @@
   <title>Tracker</title>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <style>
-      #fields {
-          display: flex;
-          flex-direction: column;
-          font-size: 1rem;
-      }
-
       .field {
           display: flex;
-          flex-direction: row;
           align-items: center;
-          justify-content: space-between;
-          margin-bottom: 0.5rem;
-          padding: 0.5rem;
-          gap: 1rem;
-          height: 48px;
+          gap: 0.5rem;
       }
-
-      .field:nth-of-type(odd) {
-          background-color: #eee;
+      
+      input {
+          height: 1.5rem;
+          margin: 0.25rem;
       }
 
       input[type=checkbox] {
@@ -46,76 +36,120 @@
 
 <body>
 <form id="dataForm" onsubmit="return false">
-  <label for="date">Date:</label>
-  <input type="datetime-local" id="date" name="date" value="" data-column="date"><br>
+  <div class="field">
+    <label for="date">Date</label>
+    <input type="datetime-local" id="date" name="date" value="" data-column="date">
+  </div>
 
-  <label for="energy">Energy:</label>
-  <input type="range" id="energy" name="energy" min="0" max="10" value="5" data-column="energy"><br>
+  <div class="field">
+    <label for="energy">Energy</label>
+    <input type="range" id="energy" name="energy" min="0" max="10" value="5" data-column="energy">
+  </div>
+
   <fieldset>
     <legend>Sleep</legend>
-    <label for="went_to_bed">Went to bed:</label>
-    <input type="time" id="went_to_bed" name="went_to_bed" value="" data-column="went_to_bed"><br>
 
-    <label for="woke_up">Woke up:</label>
-    <input type="time" id="woke_up" name="woke_up" value="" data-column="woke_up"><br>
+    <div class="field">
+      <label for="went_to_bed">Went to bed</label>
+      <input type="time" id="went_to_bed" name="went_to_bed" value="" data-column="went_to_bed">
+    </div>
 
-    <label for="snooze">Snooze:</label>
-    <input type="checkbox" id="snooze" name="snooze" data-column="snooze"><br>
+    <div class="field">
+      <label for="woke_up">Woke up</label>
+      <input type="time" id="woke_up" name="woke_up" value="" data-column="woke_up">
+    </div>
 
-    <label for="woke_up_mid_night">Woke up mid night:</label>
-    <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night" data-column="woke_up_mid_night"><br>
+    <div class="field">
+      <label for="snooze">Snooze</label>
+      <input type="checkbox" id="snooze" name="snooze" data-column="snooze">
+    </div>
+
+    <div class="field">
+      <label for="woke_up_mid_night">Woke up mid night</label>
+      <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night" data-column="woke_up_mid_night">
+    </div>
   </fieldset>
 
   <fieldset>
     <legend>Consumption</legend>
-    <label for="last_eat">Last eat:</label>
-    <input type="time" id="last_eat" name="last_eat" value="" data-column="last_eat"><br>
 
-    <label for="last_coffee">Last coffee:</label>
-    <input type="time" id="last_coffee" name="last_coffee" value="" data-column="last_coffee"><br>
+    <div class="field">
+      <label for="last_eat">Last eat</label>
+      <input type="time" id="last_eat" name="last_eat" value="" data-column="last_eat">
+    </div>
 
-    <label for="last_water">Last water:</label>
-    <input type="time" id="last_water" name="last_water" value="" data-column="last_water"><br>
+    <div class="field">
+      <label for="last_coffee">Last coffee</label>
+      <input type="time" id="last_coffee" name="last_coffee" value="" data-column="last_coffee">
+    </div>
 
-    <label for="alcohol">Alcohol:</label>
-    <input type="checkbox" id="alcohol" name="alcohol" data-column="alcohol"><br>
+    <div class="field">
+      <label for="last_water">Last water</label>
+      <input type="time" id="last_water" name="last_water" value="" data-column="last_water">
+    </div>
 
-    <label for="keto">Keto:</label>
-    <input type="checkbox" id="keto" name="keto" data-column="keto"><br>
+    <div class="field">
+      <label for="alcohol">Alcohol</label>
+      <input type="checkbox" id="alcohol" name="alcohol" data-column="alcohol">
+    </div>
 
-    <label for="stuffed">Feeling bloated:</label>
-    <input type="checkbox" id="stuffed" name="stuffed" data-column="stuffed"><br>
+    <div class="field">
+      <label for="keto">Keto</label>
+      <input type="checkbox" id="keto" name="keto" data-column="keto">
+    </div>
+
+    <div class="field">
+      <label for="stuffed">Feeling bloated</label>
+      <input type="checkbox" id="stuffed" name="stuffed" data-column="stuffed">
+    </div>
   </fieldset>
 
   <fieldset>
     <legend>Activities (Hours)</legend>
-    <label for="productivity">Productivity:</label>
-    <input type="number" id="productivity" name="productivity" value="0" data-column="productivity"><br>
 
-    <label for="family">Family:</label>
-    <input type="number" id="family" name="family" value="0" data-column="family"><br>
+    <div class="field">
+      <label for="productivity">Productivity</label>
+      <input type="number" id="productivity" name="productivity" value="0" data-column="productivity">
+    </div>
 
-    <label for="social">Social:</label>
-    <input type="number" id="social" name="social" value="0" data-column="social"><br>
+    <div class="field">
+      <label for="family">Family</label>
+      <input type="number" id="family" name="family" value="0" data-column="family">
+    </div>
 
-    <label for="creative">Creative:</label>
-    <input type="number" id="creative" name="creative" value="0" data-column="creative"><br>
+    <div class="field">
+      <label for="social">Social</label>
+      <input type="number" id="social" name="social" value="0" data-column="social">
+    </div>
+
+    <div class="field">
+      <label for="creative">Creative</label>
+      <input type="number" id="creative" name="creative" value="0" data-column="creative">
+    </div>
   </fieldset>
 
   <fieldset>
     <legend>Well-being</legend>
 
-    <label for="shower">Last Shower:</label>
-    <input type="time" id="shower" name="shower" value="" data-column="shower"><br>
-    
-    <label for="work_late">Work late?:</label>
-    <input type="checkbox" id="work_late" name="work_late" data-column="work_late"><br>
+    <div class="field">
+      <label for="shower">Last Shower</label>
+      <input type="time" id="shower" name="shower" value="" data-column="shower">
+    </div>
 
-    <label for="sick">Sick:</label>
-    <input type="checkbox" id="sick" name="sick" data-column="sick"><br>
-    
-    <label for="porn">Porn:</label>
-    <input type="checkbox" id="porn" name="porn" data-column="porn"><br>
+    <div class="field">
+      <label for="work_late">Work late?</label>
+      <input type="checkbox" id="work_late" name="work_late" data-column="work_late">
+    </div>
+
+    <div class="field">
+      <label for="sick">Sick</label>
+      <input type="checkbox" id="sick" name="sick" data-column="sick">
+    </div>
+
+    <div class="field">
+      <label for="porn">Porn</label>
+      <input type="checkbox" id="porn" name="porn" data-column="porn">
+    </div>
   </fieldset>
 
   <button id="submitButton">SUBMIT</button>
@@ -147,7 +181,7 @@
           alert("Error!");
           return;
         }
-
+        
         console.info("Success!");
         alert("Success!");
       })
@@ -162,7 +196,7 @@
 </script>
 <script>
   const getIsoFormat = () => {
-    const timezoneOffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    const timezoneOffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
     const localISOTime = (new Date(Date.now() - timezoneOffset)).toISOString().slice(0, -1);
     return localISOTime.slice(0, 16);
   };
