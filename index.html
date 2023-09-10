@@ -232,7 +232,7 @@
           assignedData[key] = row[key];
           continue;
         }
-        assignedData[key] = assignedData[key] ?? row[key]
+        assignedData[key] = row[key] ?? assignedData[key];
       }
     }
     
