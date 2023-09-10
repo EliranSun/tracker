@@ -45,8 +45,79 @@
 </head>
 
 <body>
-<form onsubmit="return false">
-  <div id="fields"></div>
+<form id="dataForm" onsubmit="return false">
+  <label for="date">Date:</label>
+  <input type="datetime-local" id="date" name="date" value="" data-column="date"><br>
+
+  <label for="energy">Energy:</label>
+  <input type="range" id="energy" name="energy" min="0" max="10" value="5" data-column="energy"><br>
+  <fieldset>
+    <legend>Sleep</legend>
+    <label for="went_to_bed">Went to bed:</label>
+    <input type="time" id="went_to_bed" name="went_to_bed" value="23:00" data-column="went_to_bed"><br>
+
+    <label for="woke_up">Woke up:</label>
+    <input type="time" id="woke_up" name="woke_up" value="07:00" data-column="woke_up"><br>
+
+    <label for="snooze">Snooze:</label>
+    <input type="checkbox" id="snooze" name="snooze" data-column="snooze"><br>
+
+    <label for="woke_up_mid_night">Woke up mid night:</label>
+    <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night" data-column="woke_up_mid_night"><br>
+  </fieldset>
+
+  <fieldset>
+    <legend>Consumption</legend>
+    <label for="last_eat">Last eat:</label>
+    <input type="time" id="last_eat" name="last_eat" value="20:00" data-column="last_eat"><br>
+
+    <label for="last_coffee">Last coffee:</label>
+    <input type="time" id="last_coffee" name="last_coffee" value="14:00" data-column="last_coffee"><br>
+
+    <label for="last_water">Last water:</label>
+    <input type="time" id="last_water" name="last_water" value="20:00" data-column="last_water"><br>
+
+    <label for="alcohol">Alcohol:</label>
+    <input type="checkbox" id="alcohol" name="alcohol" data-column="alcohol"><br>
+
+    <label for="keto">Keto:</label>
+    <input type="checkbox" id="keto" name="keto" data-column="keto"><br>
+
+    <label for="stuffed">Feeling bloated:</label>
+    <input type="checkbox" id="stuffed" name="stuffed" data-column="stuffed"><br>
+  </fieldset>
+
+  <fieldset>
+    <legend>Activities (Hours)</legend>
+    <label for="productivity">Productivity:</label>
+    <input type="number" id="productivity" name="productivity" value="0" data-column="productivity"><br>
+
+    <label for="family">Family:</label>
+    <input type="number" id="family" name="family" value="0" data-column="family"><br>
+
+    <label for="social">Social:</label>
+    <input type="number" id="social" name="social" value="0" data-column="social"><br>
+
+    <label for="creative">Creative:</label>
+    <input type="number" id="creative" name="creative" value="0" data-column="creative"><br>
+  </fieldset>
+
+  <fieldset>
+    <legend>Well-being</legend>
+
+    <label for="shower">Last Shower:</label>
+    <input type="time" id="shower" name="shower" value="20:00" data-column="shower"><br>
+    
+    <label for="work_late">Work late?:</label>
+    <input type="checkbox" id="work_late" name="work_late" data-column="work_late"><br>
+
+    <label for="sick">Sick:</label>
+    <input type="checkbox" id="sick" name="sick" data-column="sick"><br>
+    
+    <label for="porn">Porn:</label>
+    <input type="checkbox" id="porn" name="porn" data-column="porn"><br>
+  </fieldset>
+
   <button id="submitButton">SUBMIT</button>
 </form>
 </body>
@@ -55,14 +126,13 @@
   const supabaseClient = supabase.createClient('https://otlkqlgtytznkoyznznn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90bGtxbGd0eXR6bmtveXpuem5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQzMzYwMjAsImV4cCI6MjAwOTkxMjAyMH0.02v7rS-lI7vgn0q_Fr5y9Av-1tuw-k-TWviJkQpNGhU');
   
   function handleSubmit(event) {
-    const fields = document.querySelector("#fields");
+    const inputs = document.querySelectorAll("input");
     
     const data = {};
-    for (const field of Array.from(fields.children)) {
-      const input = field.querySelector("input");
-      console.log(input)
-      data[input.getAttribute("column")] = input.type === 'checkbox' 
-        ? input.checked 
+    console.log(inputs);
+    for (const input of Array.from(inputs)) {
+      data[input.getAttribute("data-column")] = input.type === 'checkbox'
+        ? input.checked
         : input.value;
     }
     
@@ -74,13 +144,16 @@
       .then((res) => {
         if (res?.error?.code) {
           console.error(res.error);
+          alert("Error!");
           return;
         }
 
         console.info("Success!");
+        alert("Success!");
       })
       .catch((err) => {
         console.error(err);
+        alert("Error!");
       });
   }
   
@@ -94,136 +167,7 @@
     return localISOTime.slice(0, 16);
   };
   
-  const fields = [{
-    name: "Date",
-    columnName: "date",
-    type: "datetime-local",
-    defaultValue: getIsoFormat(),
-  }, {
-    name: "Went to bed",
-    columnName: "went_to_bed",
-    type: "time",
-    defaultValue: "23:00",
-  }, {
-    name: "Woke up",
-    columnName: "woke_up",
-    type: "time",
-    defaultValue: "07:00",
-  }, {
-    name: "Snooze",
-    columnName: "snooze",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Woke up mid night",
-    columnName: "woke_up_mid_night",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Last eat",
-    columnName: "last_eat",
-    type: "time",
-    defaultValue: "20:00",
-  }, {
-    name: "Productivity (hours)",
-    columnName: "productivity",
-    type: "number",
-    defaultValue: 0,
-  }, {
-    name: "Family (hours)",
-    columnName: "family",
-    type: "number",
-    defaultValue: 0,
-  }, {
-    name: "Social (hours)",
-    columnName: "social",
-    type: "number",
-    defaultValue: 0,
-  }, {
-    name: "Work late?",
-    columnName: "work_late",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Last coffee",
-    columnName: "last_coffee",
-    type: "time",
-    defaultValue: "14:00",
-  }, {
-    name: "Sick",
-    columnName: "sick",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Creative (hours)",
-    columnName: "creative",
-    type: "number",
-    defaultValue: 0,
-  }, {
-    name: "Porn",
-    columnName: "porn",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Alcohol",
-    columnName: "alcohol",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Keto",
-    columnName: "keto",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Stuffed",
-    columnName: "stuffed",
-    type: "checkbox",
-    defaultValue: false,
-  }, {
-    name: "Last water",
-    columnName: "last_water",
-    type: "time",
-    defaultValue: "20:00",
-  }, {
-    name: "Shower",
-    columnName: "shower",
-    type: "time",
-    defaultValue: "20:00",
-  }, {
-    name: "Energy",
-    columnName: "energy",
-    type: "range",
-    defaultValue: 5,
-    min: 0,
-    max: 10,
-  }]
-  
-  const fieldsContainer = document.querySelector("#fields");
-  
-  fields.forEach((field) => {
-    const div = document.createElement("div");
-    div.className = "field";
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-    
-    label.innerHTML = field.name;
-    input.type = field.type;
-    input.name = field.name;
-    
-    if (field.type === "checkbox") {
-      input.checked = field.defaultValue;
-    } else {
-      input.value = field.defaultValue;
-    }
-    
-    input.setAttribute("column", field.columnName);
-    
-    if (field.min) input.min = field.min;
-    if (field.max) input.max = field.max;
-    
-    div.appendChild(label);
-    div.appendChild(input);
-    fieldsContainer.appendChild(div);
-  });
+  const dateInput = document.querySelector("input[type=datetime-local]");
+  dateInput.value = getIsoFormat();
 </script>
 </html>
