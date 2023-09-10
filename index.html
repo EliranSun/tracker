@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracker</title>
+  <script  src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <style>
+      #fields {
+          display: flex;
+          flex-direction: column;
+          font-size: 1rem;
+      }
+
+      .field {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+          padding: 0.5rem;
+          gap: 1rem;
+          height: 48px;
+      }
+
+      .field:nth-of-type(odd) {
+          background-color: #eee;
+      }
+
+      input[type=checkbox] {
+          width: 1.5rem;
+          height: 1.5rem;
+      }
+
+      button#submitButton {
+          font-size: 1rem;
+          margin: auto;
+          display: inline-block;
+          width: 100%;
+          padding: 10px;
+          height: 48px;
+      }
+  </style>
+</head>
+
+<body>
+<form onsubmit="return false">
+  <div id="fields"></div>
+  <button id="submitButton">SUBMIT</button>
+</form>
+</body>
+
+<script>
+  const supabaseClient = supabase.createClient('https://otlkqlgtytznkoyznznn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90bGtxbGd0eXR6bmtveXpuem5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQzMzYwMjAsImV4cCI6MjAwOTkxMjAyMH0.02v7rS-lI7vgn0q_Fr5y9Av-1tuw-k-TWviJkQpNGhU');
+  function handleSubmit(event) {
+    const fields = document.querySelector("#fields");
+    console.log(Array.from(fields.children));
+    
+    const data = {};
+    for (const field of Array.from(fields.children)) {
+      const input = field.querySelector("input");
+      data[input.getAttribute("column")] = input.value;
+    }
+    
+    console.log(data);
+    
+    supabaseClient
+      .from('tracker')
+      .insert([data])
+      .then((res) => {
+        if (res?.error?.code) {
+          console.error(res.error);
+          return;
+        }
+        
+        console.info("Success!");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  
+  const submitButton = document.querySelector("#submitButton");
+  submitButton.addEventListener("click", handleSubmit);
+</script>
+<script>
+  const getIsoFormat = () => {
+    const timezoneOffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    const localISOTime = (new Date(Date.now() - timezoneOffset)).toISOString().slice(0, -1);
+    return localISOTime.slice(0, 16);
+  };
+  
+  const fields = [{
+    name: "Date",
+    columnName: "date",
+    type: "datetime-local",
+    defaultValue: getIsoFormat(),
+  }, {
+    name: "Went to bed",
+    columnName: "went_to_bed",
+    type: "time",
+    defaultValue: "23:00",
+  }, {
+    name: "Woke up",
+    columnName: "woke_up",
+    type: "time",
+    defaultValue: "07:00",
+  }, {
+    name: "Snooze",
+    columnName: "snooze",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Woke up mid night",
+    columnName: "woke_up_mid_night",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Last eat",
+    columnName: "last_eat",
+    type: "time",
+    defaultValue: "20:00",
+  }, {
+    name: "Productivity (hours)",
+    columnName: "productivity",
+    type: "number",
+    defaultValue: 0,
+  }, {
+    name: "Family (hours)",
+    columnName: "family",
+    type: "number",
+    defaultValue: 0,
+  }, {
+    name: "Social (hours)",
+    columnName: "social",
+    type: "number",
+    defaultValue: 0,
+  }, {
+    name: "Work late?",
+    columnName: "work_late",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Last coffee",
+    columnName: "last_coffee",
+    type: "time",
+    defaultValue: "14:00",
+  }, {
+    name: "Sick",
+    columnName: "sick",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Creative (hours)",
+    columnName: "creative",
+    type: "number",
+    defaultValue: 0,
+  }, {
+    name: "Porn",
+    columnName: "porn",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Alcohol",
+    columnName: "alcohol",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Keto",
+    columnName: "keto",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Stuffed",
+    columnName: "stuffed",
+    type: "checkbox",
+    defaultValue: false,
+  }, {
+    name: "Last water",
+    columnName: "last_water",
+    type: "time",
+    defaultValue: "20:00",
+  }, {
+    name: "Shower",
+    columnName: "shower",
+    type: "time",
+    defaultValue: "20:00",
+  }, {
+    name: "Energy",
+    columnName: "energy",
+    type: "range",
+    defaultValue: 5,
+    min: 0,
+    max: 10,
+  }]
+  
+  const fieldsContainer = document.querySelector("#fields");
+  
+  fields.forEach((field) => {
+    const div = document.createElement("div");
+    div.className = "field";
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    
+    label.innerHTML = field.name;
+    input.type = field.type;
+    input.name = field.name;
+    input.value = field.defaultValue;
+    input.setAttribute("column", field.columnName); 
+    
+    if (field.min) input.min = field.min;
+    if (field.max) input.max = field.max;
+    
+    div.appendChild(label);
+    div.appendChild(input);
+    fieldsContainer.appendChild(div);
+  });
+</script>
+</html>
