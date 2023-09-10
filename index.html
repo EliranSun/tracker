@@ -54,10 +54,10 @@
   <fieldset>
     <legend>Sleep</legend>
     <label for="went_to_bed">Went to bed:</label>
-    <input type="time" id="went_to_bed" name="went_to_bed" value="23:00" data-column="went_to_bed"><br>
+    <input type="time" id="went_to_bed" name="went_to_bed" value="" data-column="went_to_bed"><br>
 
     <label for="woke_up">Woke up:</label>
-    <input type="time" id="woke_up" name="woke_up" value="07:00" data-column="woke_up"><br>
+    <input type="time" id="woke_up" name="woke_up" value="" data-column="woke_up"><br>
 
     <label for="snooze">Snooze:</label>
     <input type="checkbox" id="snooze" name="snooze" data-column="snooze"><br>
@@ -69,13 +69,13 @@
   <fieldset>
     <legend>Consumption</legend>
     <label for="last_eat">Last eat:</label>
-    <input type="time" id="last_eat" name="last_eat" value="20:00" data-column="last_eat"><br>
+    <input type="time" id="last_eat" name="last_eat" value="" data-column="last_eat"><br>
 
     <label for="last_coffee">Last coffee:</label>
-    <input type="time" id="last_coffee" name="last_coffee" value="14:00" data-column="last_coffee"><br>
+    <input type="time" id="last_coffee" name="last_coffee" value="" data-column="last_coffee"><br>
 
     <label for="last_water">Last water:</label>
-    <input type="time" id="last_water" name="last_water" value="20:00" data-column="last_water"><br>
+    <input type="time" id="last_water" name="last_water" value="" data-column="last_water"><br>
 
     <label for="alcohol">Alcohol:</label>
     <input type="checkbox" id="alcohol" name="alcohol" data-column="alcohol"><br>
@@ -106,7 +106,7 @@
     <legend>Well-being</legend>
 
     <label for="shower">Last Shower:</label>
-    <input type="time" id="shower" name="shower" value="20:00" data-column="shower"><br>
+    <input type="time" id="shower" name="shower" value="" data-column="shower"><br>
     
     <label for="work_late">Work late?:</label>
     <input type="checkbox" id="work_late" name="work_late" data-column="work_late"><br>
@@ -133,7 +133,7 @@
     for (const input of Array.from(inputs)) {
       data[input.getAttribute("data-column")] = input.type === 'checkbox'
         ? input.checked
-        : input.value;
+        : input.value || null;
     }
     
     console.log(data);
