@@ -47,7 +47,7 @@
 <form id="dataForm" onsubmit="return false">
   <div class="field">
     <label for="date">Date</label>
-    <input type="datetime-local" id="date" name="date" value="" data-column="date">
+    <input type="date" id="date" name="date" value="" data-column="date">
   </div>
 
   <div class="field">
@@ -207,10 +207,10 @@
   const getIsoFormat = () => {
     const timezoneOffset = (new Date()).getTimezoneOffset() * 60000; // offset in milliseconds
     const localISOTime = (new Date(Date.now() - timezoneOffset)).toISOString().slice(0, -1);
-    return localISOTime.slice(0, 16);
+    return localISOTime.slice(0, 10);
   };
   
-  const dateInput = document.querySelector("input[type=datetime-local]");
+  const dateInput = document.querySelector("input[type=date]");
   dateInput.value = getIsoFormat();
 </script>
 </html>
