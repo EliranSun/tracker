@@ -7,6 +7,12 @@
   <title>Tracker</title>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
+      
+      body {
+          font-family: 'Alef', sans-serif;
+      }
+      
       .field {
           display: flex;
           align-items: center;
@@ -21,6 +27,9 @@
       input[type=checkbox] {
           width: 1.5rem;
           height: 1.5rem;
+      }
+      input[type=range] {
+          width: 100%;
       }
 
       button#submitButton {
