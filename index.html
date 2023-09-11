@@ -222,10 +222,13 @@
 
 
   async function fetchDataByDate(date) {
-    const { data, error } = await supabaseClient
-      .from('tracker').select('*').eq('date', date);
-
     const assignedData = {};
+    const inputs = document.querySelectorAll("input");
+    const { data, error } = await supabaseClient
+      .from('tracker')
+      .select('*')
+      .eq('date', date);
+
     for (const row of data) {
       for (const key in row) {
         if (key === "date") {
@@ -240,11 +243,12 @@
       }
     }
 
-    console.log({ data, assignedData });
+    console.log({ data, assignedData, inputs });
+    
+    if (Object.keys(assignedData) === 0) {
+      return;
+    }
 
-    const inputs = document.querySelectorAll("input");
-
-    console.log(inputs);
     for (const input of Array.from(inputs)) {
       input.value = assignedData[input.getAttribute('id')] || null;
     }
