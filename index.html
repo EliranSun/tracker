@@ -7,169 +7,169 @@
   <title>Tracker</title>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <style>
-      @import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
 
-      body {
-          font-family: 'Alef', sans-serif;
-      }
+    body {
+      font-family: 'Alef', sans-serif;
+    }
 
-      .field {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-      }
+    .field {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-      input {
-          height: 1.5rem;
-          margin: 0.25rem;
-      }
+    input {
+      height: 1.5rem;
+      margin: 0.25rem;
+    }
 
-      input[type=checkbox] {
-          width: 1.5rem;
-          height: 1.5rem;
-      }
+    input[type=checkbox] {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
 
-      input[type=range] {
-          width: 100%;
-      }
+    input[type=range] {
+      width: 100%;
+    }
 
-      button#submitButton {
-          font-size: 1rem;
-          margin: auto;
-          display: inline-block;
-          width: 100%;
-          padding: 0.5rem;
-          height: 3.5rem;
-          margin-block: 2rem;
-      }
+    button#submitButton {
+      font-size: 1rem;
+      margin: auto;
+      display: inline-block;
+      width: 100%;
+      padding: 0.5rem;
+      height: 3.5rem;
+      margin-block: 2rem;
+    }
   </style>
 </head>
 
 <body>
-<form id="dataForm" onsubmit="return false">
-  <div class="field">
-    <label for="date">Date</label>
-    <input type="date" id="date" name="date" value="">
-  </div>
-
-  <div class="field">
-    <label for="energy">Energy</label>
-    <input type="range" id="energy" name="energy" min="0" max="10" value="5">
-  </div>
-
-  <fieldset>
-    <legend>Sleep</legend>
-
+  <form id="dataForm" onsubmit="return false">
     <div class="field">
-      <label for="went_to_bed">Went to bed</label>
-      <input type="time" id="went_to_bed" name="went_to_bed" value="">
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" value="">
     </div>
 
     <div class="field">
-      <label for="woke_up">Woke up</label>
-      <input type="time" id="woke_up" name="woke_up" value="">
+      <label for="energy">Energy</label>
+      <input type="range" id="energy" name="energy" min="0" max="10" value="5">
     </div>
 
-    <div class="field">
-      <label for="snooze">Snooze</label>
-      <input type="checkbox" id="snooze" name="snooze">
-    </div>
+    <fieldset>
+      <legend>Sleep</legend>
 
-    <div class="field">
-      <label for="woke_up_mid_night">Woke up mid night</label>
-      <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night">
-    </div>
-  </fieldset>
+      <div class="field">
+        <label for="went_to_bed">Went to bed</label>
+        <input type="time" id="went_to_bed" name="went_to_bed" value="">
+      </div>
 
-  <fieldset>
-    <legend>Consumption</legend>
+      <div class="field">
+        <label for="woke_up">Woke up</label>
+        <input type="time" id="woke_up" name="woke_up" value="">
+      </div>
 
-    <div class="field">
-      <label for="last_eat">Last eat</label>
-      <input type="time" id="last_eat" name="last_eat" value="">
-    </div>
+      <div class="field">
+        <label for="snooze">Snooze</label>
+        <input type="checkbox" id="snooze" name="snooze">
+      </div>
 
-    <div class="field">
-      <label for="last_coffee">Last coffee</label>
-      <input type="time" id="last_coffee" name="last_coffee" value="">
-    </div>
+      <div class="field">
+        <label for="woke_up_mid_night">Woke up mid night</label>
+        <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night">
+      </div>
+    </fieldset>
 
-    <div class="field">
-      <label for="last_water">Last water</label>
-      <input type="time" id="last_water" name="last_water" value="">
-    </div>
+    <fieldset>
+      <legend>Consumption</legend>
 
-    <div class="field">
-      <label for="alcohol">Alcohol</label>
-      <input type="checkbox" id="alcohol" name="alcohol">
-    </div>
+      <div class="field">
+        <label for="last_eat">Last eat</label>
+        <input type="time" id="last_eat" name="last_eat" value="">
+      </div>
 
-    <div class="field">
-      <label for="keto">Keto</label>
-      <input type="checkbox" id="keto" name="keto">
-    </div>
+      <div class="field">
+        <label for="last_coffee">Last coffee</label>
+        <input type="time" id="last_coffee" name="last_coffee" value="">
+      </div>
 
-    <div class="field">
-      <label for="stuffed">Feeling bloated</label>
-      <input type="checkbox" id="stuffed" name="stuffed">
-    </div>
-  </fieldset>
+      <div class="field">
+        <label for="last_water">Last water</label>
+        <input type="time" id="last_water" name="last_water" value="">
+      </div>
 
-  <fieldset>
-    <legend>Activities (Hours)</legend>
+      <div class="field">
+        <label for="alcohol">Alcohol</label>
+        <input type="checkbox" id="alcohol" name="alcohol">
+      </div>
 
-    <div class="field">
-      <label for="productivity">Productivity</label>
-      <input type="number" id="productivity" name="productivity" value="0">
-    </div>
+      <div class="field">
+        <label for="keto">Keto</label>
+        <input type="checkbox" id="keto" name="keto">
+      </div>
 
-    <div class="field">
-      <label for="family">Family</label>
-      <input type="number" id="family" name="family" value="0">
-    </div>
+      <div class="field">
+        <label for="stuffed">Feeling bloated</label>
+        <input type="checkbox" id="stuffed" name="stuffed">
+      </div>
+    </fieldset>
 
-    <div class="field">
-      <label for="social">Social</label>
-      <input type="number" id="social" name="social" value="0">
-    </div>
+    <fieldset>
+      <legend>Activities (Hours)</legend>
 
-    <div class="field">
-      <label for="creative">Creative</label>
-      <input type="number" id="creative" name="creative" value="0">
-    </div>
-  </fieldset>
+      <div class="field">
+        <label for="productivity">Productivity</label>
+        <input type="number" id="productivity" name="productivity" value="0">
+      </div>
 
-  <fieldset>
-    <legend>Well-being</legend>
+      <div class="field">
+        <label for="family">Family</label>
+        <input type="number" id="family" name="family" value="0">
+      </div>
 
-    <div class="field">
-      <label for="shower">Last Shower</label>
-      <input type="time" id="shower" name="shower" value="">
-    </div>
+      <div class="field">
+        <label for="social">Social</label>
+        <input type="number" id="social" name="social" value="0">
+      </div>
 
-    <div class="field">
-      <label for="work_late">Work late</label>
-      <input type="checkbox" id="work_late" name="work_late">
-    </div>
+      <div class="field">
+        <label for="creative">Creative</label>
+        <input type="number" id="creative" name="creative" value="0">
+      </div>
+    </fieldset>
 
-    <div class="field">
-      <label for="workout">Workout</label>
-      <input type="checkbox" id="workout" name="workout">
-    </div>
+    <fieldset>
+      <legend>Well-being</legend>
 
-    <div class="field">
-      <label for="sick">Sick</label>
-      <input type="checkbox" id="sick" name="sick">
-    </div>
+      <div class="field">
+        <label for="shower">Last Shower</label>
+        <input type="time" id="shower" name="shower" value="">
+      </div>
 
-    <div class="field">
-      <label for="porn">Porn</label>
-      <input type="checkbox" id="porn" name="porn">
-    </div>
-  </fieldset>
+      <div class="field">
+        <label for="work_late">Work late</label>
+        <input type="checkbox" id="work_late" name="work_late">
+      </div>
 
-  <button id="submitButton">SUBMIT</button>
-</form>
+      <div class="field">
+        <label for="workout">Workout</label>
+        <input type="checkbox" id="workout" name="workout">
+      </div>
+
+      <div class="field">
+        <label for="sick">Sick</label>
+        <input type="checkbox" id="sick" name="sick">
+      </div>
+
+      <div class="field">
+        <label for="porn">Porn</label>
+        <input type="checkbox" id="porn" name="porn">
+      </div>
+    </fieldset>
+
+    <button id="submitButton">SUBMIT</button>
+  </form>
 </body>
 <script>
   var supabaseClient = supabase.createClient('https://otlkqlgtytznkoyznznn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90bGtxbGd0eXR6bmtveXpuem5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQzMzYwMjAsImV4cCI6MjAwOTkxMjAyMH0.02v7rS-lI7vgn0q_Fr5y9Av-1tuw-k-TWviJkQpNGhU');
@@ -177,7 +177,7 @@
 <script>
   function handleSubmit() {
     const inputs = document.querySelectorAll("input");
-    
+
     const data = {};
     console.log(inputs);
     for (const input of Array.from(inputs)) {
@@ -185,9 +185,9 @@
         ? input.checked
         : input.value || null;
     }
-    
+
     console.log(data);
-    
+
     supabaseClient
       .from('tracker')
       .insert([data])
@@ -197,7 +197,7 @@
           alert("Error!");
           return;
         }
-        
+
         console.info("Success!");
         alert("Success!");
       })
@@ -206,7 +206,7 @@
         alert("Error!");
       });
   }
-  
+
   const submitButton = document.querySelector("#submitButton");
   submitButton.addEventListener("click", handleSubmit);
 </script>
@@ -216,18 +216,22 @@
     const localISOTime = (new Date(Date.now() - timezoneOffset)).toISOString().slice(0, -1);
     return localISOTime.slice(0, 10);
   };
-  
+
   const dateInput = document.querySelector("input[type=date]");
   dateInput.value = getIsoFormat();
-  
-  
+
+
   async function fetchDataByDate(date) {
     const { data, error } = await supabaseClient
       .from('tracker').select('*').eq('date', date);
-    
+
     const assignedData = {};
     for (const row of data) {
       for (const key in row) {
+        if (key === "date") {
+          continue;
+        }
+
         if (key === "energy") { // always last
           assignedData[key] = row[key];
           continue;
@@ -235,19 +239,20 @@
         assignedData[key] = row[key] ?? assignedData[key];
       }
     }
-    
-    console.log({data,assignedData});
-    
+
+    console.log({ data, assignedData });
+
     const inputs = document.querySelectorAll("input");
-    
+
     console.log(inputs);
     for (const input of Array.from(inputs)) {
       input.value = assignedData[input.getAttribute('id')] || null;
     }
   }
-  
+
   fetchDataByDate(dateInput.value);
-  
+
   dateInput.addEventListener("change", event => fetchDataByDate(event.target.value));
 </script>
+
 </html>
