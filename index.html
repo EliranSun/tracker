@@ -250,11 +250,16 @@
     }
 
     for (const input of Array.from(inputs)) {
+      const data = assignedData[input.getAttribute('id')] || null;
       if (input.id === "date") {
         continue;
       }
-      
-      input.value = assignedData[input.getAttribute('id')] || null;
+
+      if (input.type === "checkbox") {
+        input.checked = data;
+      } else {
+        input.value = data;
+      }
     }
   }
 
