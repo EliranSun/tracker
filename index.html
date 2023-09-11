@@ -6,11 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tracker</title>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
 
     body {
       font-family: 'Alef', sans-serif;
+      display: flex;
+    }
+
+    form {
+      width: 33vw;
+    }
+
+    canvas {
+      width: 66vw;
     }
 
     .field {
@@ -42,10 +54,27 @@
       height: 3.5rem;
       margin-block: 2rem;
     }
+
+    @media screen and (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      form {
+        width: 100%;
+      }
+
+      canvas {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
   <form id="dataForm" onsubmit="return false">
     <div class="field">
       <label for="date">Date</label>
@@ -217,12 +246,9 @@
     return localISOTime.slice(0, 10);
   };
 
-  const dateInput = document.querySelector("input[type=date]");
-  dateInput.value = getIsoFormat();
+  var assignedData = {};
 
-
-  async function fetchDataByDate(date) {
-    const assignedData = {};
+  async function fetchAndUpdateDataByDate(date) {
     const inputs = document.querySelectorAll("input");
     const { data, error } = await supabaseClient
       .from('tracker')
@@ -243,8 +269,6 @@
       }
     }
 
-    console.log({ data, assignedData, inputs });
-
     if (Object.keys(assignedData).length === 0) {
       return;
     }
@@ -263,9 +287,130 @@
     }
   }
 
-  fetchDataByDate(dateInput.value);
+  const dateInput = document.querySelector("input[type=date]");
+  dateInput.addEventListener("change", event => fetchAndUpdateDataByDate(event.target.value));
+  dateInput.value = getIsoFormat();
+  fetchAndUpdateDataByDate(dateInput.value);
+</script>
+<script>
+  const ctx = document.getElementById('myChart');
+  async function buildChart() {
+    const { data, error } = await supabaseClient
+      .from('tracker')
+      .select('*');
 
-  dateInput.addEventListener("change", event => fetchDataByDate(event.target.value));
+    console.log({ data, error });
+
+    const labels = [];
+    const energyData = [];
+    const lastCoffee = [];
+    const productivityData = [];
+    const creativityData = [];
+    const socialData = [];
+
+    data
+      .map(item => ({ ...item, timestamp: new Date(item.date) }))
+      .sort((a, b) => a.timestamp - b.timestamp)
+      .forEach(({ date, energy, last_coffee, productivity, creative, social }) => {
+        energyData.push(energy);
+        // !labels.includes(date) &&
+        labels.push(date);
+        creativityData.push(creative);
+        productivityData.push(productivity);
+        socialData.push(social);
+
+        const hour = last_coffee?.split(":")[0];
+        const minute = last_coffee?.split(":")[1];
+        const year = date?.split("-")[0] || 0;
+        const month = date?.split("-")[1] || 0;
+        const day = date?.split("-")[2] || 0;
+
+        // if (hour && minute) {
+        // lastCoffee.push(new Date(year, month, day, hour, minute).toISOString());
+        lastCoffee.push(hour ? `${hour}:00` : null);
+        // }
+      });
+    const TwentyFourHours = [
+      '00:00', '01:00', '02:00', '03:00', '04:00', '05:00',
+      '06:00', '07:00', '08:00', '09:00', '10:00', '11:00',
+      '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
+      '18:00', '19:00', '20:00', '21:00', '22:00', '23:00',
+    ]
+
+    const ordered = labels.map(label => new Date(label).getTime()).sort().map(i => new Date(i).toLocaleString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+    }));
+    new Chart(ctx, {
+      data: {
+        labels: ordered,
+        datasets: [{
+          type: "line",
+          label: 'Energy levels',
+          data: energyData,
+          tension: 0,
+          fill: false,
+          borderWidth: 3,
+          yAxisID: 'y',
+        }, {
+          type: 'line',
+          label: 'Last coffee',
+          data: lastCoffee,
+          borderWidth: 3,
+          yAxisID: 'y1',
+        }, {
+          type: 'bar',
+          stack: true,
+          label: 'Productivity',
+          data: productivityData,
+          borderWidth: 3,
+          yAxisID: 'y2',
+        }, {
+          type: 'bar',
+          stack: true,
+          label: 'Creativity',
+          data: creativityData,
+          borderWidth: 3,
+          yAxisID: 'y2',
+        }, {
+          type: 'bar',
+          stack: true,
+          label: 'Social',
+          data: socialData,
+          borderWidth: 3,
+          yAxisID: 'y2',
+        }]
+      },
+      options: {
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
+        cubicInterpolationMode: 'monotone',
+        scales: {
+          y: {
+            stacked: false
+          },
+          y1: {
+            adapter: 'luxon',
+            type: 'category',
+            labels: TwentyFourHours,
+            stack: true,
+            time: {
+              unit: 'hour'
+            },
+            display: true,
+            position: 'right',
+            grid: {
+              drawOnChartArea: false, // only want the grid lines for one axis to show up
+            },
+          }
+        }
+      }
+    });
+  }
+
+  buildChart();
 </script>
 
 </html>
