@@ -244,12 +244,16 @@
     }
 
     console.log({ data, assignedData, inputs });
-    
+
     if (Object.keys(assignedData).length === 0) {
       return;
     }
 
     for (const input of Array.from(inputs)) {
+      if (input.id === "date") {
+        continue;
+      }
+      
       input.value = assignedData[input.getAttribute('id')] || null;
     }
   }
