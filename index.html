@@ -229,8 +229,9 @@
     const data = {};
     console.log(inputs);
     for (const input of Array.from(inputs)) {
-      if (input.name === "nap" && input.checked) 
-        data[input.getAttribute('id')] = 30;
+      if (input.name === "nap") {
+        data[input.getAttribute('id')] = input.checked ? 30 : null;
+        }
         
       data[input.getAttribute('id')] = input.type === "checkbox"
         ? input.checked
