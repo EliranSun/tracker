@@ -111,7 +111,7 @@
 
       <div class="field">
         <label for="nap">Took nap</label>
-        <input type="checkbox" id="nap" name="nap">
+        <input type="number" id="nap" name="nap">
       </div>
     </fieldset>
 
@@ -229,10 +229,6 @@
     const data = {};
     console.log(inputs);
     for (const input of Array.from(inputs)) {
-      if (input.name === "nap") {
-        data[input.getAttribute('id')] = input.checked ? 30 : null;
-        }
-        
       data[input.getAttribute('id')] = input.type === "checkbox"
         ? input.checked
         : input.value || null;
@@ -246,7 +242,7 @@
       .then((res) => {
         if (res?.error?.code) {
           console.error(res.error);
-          alert("Error!");
+          alert(JSON.stringify(res.error));
           return;
         }
 
@@ -255,7 +251,7 @@
       })
       .catch((err) => {
         console.error(err);
-        alert("Error!");
+        alert(JSON.stringify(res.error));
       });
   }
 
