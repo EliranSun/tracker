@@ -2,222 +2,230 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tracker</title>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
 
-    body {
-      font-family: 'Alef', sans-serif;
-      display: flex;
-    }
+        body {
+            font-family: 'Alef', sans-serif;
+            display: flex;
+        }
 
-    form {
-      width: 33vw;
-    }
+        form {
+            width: 33vw;
+        }
 
-    canvas {
-      width: 66vw;
-    }
+        canvas {
+            width: 66vw;
+        }
 
-    .field {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        .field {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    input {
-      height: 1.5rem;
-      margin: 0.25rem;
-    }
+        input {
+            height: 1.5rem;
+            margin: 0.25rem;
+        }
 
-    input[type=checkbox] {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
+        input[type=checkbox] {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
 
-    input[type=range] {
-      width: 100%;
-    }
+        input[type=range] {
+            width: 100%;
+        }
 
-    button#submitButton {
-      font-size: 1rem;
-      margin: auto;
-      display: inline-block;
-      width: 100%;
-      padding: 0.5rem;
-      height: 3.5rem;
-      margin-block: 2rem;
-    }
+        button#submitButton {
+            font-size: 1rem;
+            margin: auto;
+            display: inline-block;
+            width: 100%;
+            padding: 0.5rem;
+            height: 3.5rem;
+            margin-block: 2rem;
+        }
 
-    @media screen and (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
 
-      form {
-        width: 100%;
-      }
+            form {
+                width: 100%;
+            }
 
-      canvas {
-        width: 100%;
-      }
-    }
-  </style>
+            canvas {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <div>
+<div>
     <canvas id="myChart"></canvas>
-  </div>
-  <form id="dataForm" onsubmit="return false">
+</div>
+<form id="dataForm" onsubmit="return false">
     <div class="field">
-      <label for="date">Date</label>
-      <input type="date" id="date" name="date" value="">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" value="">
     </div>
 
     <div class="field">
-      <label for="energy">Energy</label>
-      <input type="range" id="energy" name="energy" min="0" max="10" value="5">
+        <label for="energy">Energy</label>
+        <input type="range" id="energy" name="energy" min="0" max="10" value="5">
     </div>
 
     <fieldset>
-      <legend>Sleep</legend>
+        <legend>Sleep</legend>
 
-      <div class="field">
-        <label for="went_to_bed">Went to bed</label>
-        <input type="time" id="went_to_bed" name="went_to_bed" value="">
-      </div>
+        <div class="field">
+            <label for="went_to_bed">Went to bed</label>
+            <input type="time" id="went_to_bed" name="went_to_bed" value="">
+        </div>
 
-      <div class="field">
-        <label for="woke_up">Woke up</label>
-        <input type="time" id="woke_up" name="woke_up" value="">
-      </div>
+        <div class="field">
+            <label for="woke_up">Woke up</label>
+            <input type="time" id="woke_up" name="woke_up" value="">
+        </div>
 
-      <div class="field">
-        <label for="snooze">Snooze</label>
-        <input type="checkbox" id="snooze" name="snooze">
-      </div>
+        <div class="field">
+            <label for="snooze">Snooze</label>
+            <input type="checkbox" id="snooze" name="snooze">
+        </div>
 
-      <div class="field">
-        <label for="woke_up_mid_night">Woke up mid night</label>
-        <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night">
-      </div>
+        <div class="field">
+            <label for="woke_up_mid_night">Woke up mid night</label>
+            <input type="checkbox" id="woke_up_mid_night" name="woke_up_mid_night">
+        </div>
 
-      <div class="field">
-        <label for="nap">Took nap</label>
-        <input type="checkbox" id="nap" name="nap">
-      </div>
+        <div class="field">
+            <label for="nap30">30 min nap</label>
+            <input type="checkbox" id="nap30" name="nap">
+        </div>
+        <div class="field">
+            <label for="nap45">45 min nap</label>
+            <input type="checkbox" id="nap45" name="nap">
+        </div>
+        <div class="field">
+            <label for="nap90">90 min nap</label>
+            <input type="checkbox" id="nap90" name="nap">
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>Consumption</legend>
+        <legend>Consumption</legend>
 
-      <div class="field">
-        <label for="last_eat">Last eat</label>
-        <input type="time" id="last_eat" name="last_eat" value="">
-      </div>
+        <div class="field">
+            <label for="last_eat">Last eat</label>
+            <input type="time" id="last_eat" name="last_eat" value="">
+        </div>
 
-      <div class="field">
-        <label for="last_coffee">Last coffee</label>
-        <input type="time" id="last_coffee" name="last_coffee" value="">
-      </div>
+        <div class="field">
+            <label for="last_coffee">Last coffee</label>
+            <input type="time" id="last_coffee" name="last_coffee" value="">
+        </div>
 
-      <div class="field">
-        <label for="last_water">Last water</label>
-        <input type="time" id="last_water" name="last_water" value="">
-      </div>
+        <div class="field">
+            <label for="last_water">Last water</label>
+            <input type="time" id="last_water" name="last_water" value="">
+        </div>
 
-      <div class="field">
-        <label for="alcohol">Alcohol</label>
-        <input type="checkbox" id="alcohol" name="alcohol">
-      </div>
+        <div class="field">
+            <label for="alcohol">Alcohol</label>
+            <input type="checkbox" id="alcohol" name="alcohol">
+        </div>
 
-      <div class="field">
-        <label for="keto">Keto</label>
-        <input type="checkbox" id="keto" name="keto">
-      </div>
+        <div class="field">
+            <label for="keto">Keto</label>
+            <input type="checkbox" id="keto" name="keto">
+        </div>
 
-      <div class="field">
-        <label for="stuffed">Feeling bloated</label>
-        <input type="checkbox" id="stuffed" name="stuffed">
-      </div>
+        <div class="field">
+            <label for="stuffed">Feeling bloated</label>
+            <input type="checkbox" id="stuffed" name="stuffed">
+        </div>
 
-      <div class="field">
-        <label for="sugar">Sugar</label>
-        <input type="time" id="sugar" name="sugar">
-      </div>
+        <div class="field">
+            <label for="sugar">Sugar</label>
+            <input type="time" id="sugar" name="sugar">
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>Activities (Hours)</legend>
+        <legend>Activities (Hours)</legend>
 
-      <div class="field">
-        <label for="productivity">Productivity</label>
-        <input type="number" id="productivity" name="productivity" value="0">
-      </div>
+        <div class="field">
+            <label for="productivity">Productivity</label>
+            <input type="number" id="productivity" name="productivity" value="0">
+        </div>
 
-      <div class="field">
-        <label for="family">Family</label>
-        <input type="number" id="family" name="family" value="0">
-      </div>
+        <div class="field">
+            <label for="family">Family</label>
+            <input type="number" id="family" name="family" value="0">
+        </div>
 
-      <div class="field">
-        <label for="social">Social</label>
-        <input type="number" id="social" name="social" value="0">
-      </div>
+        <div class="field">
+            <label for="social">Social</label>
+            <input type="number" id="social" name="social" value="0">
+        </div>
 
-      <div class="field">
-        <label for="creative">Creative</label>
-        <input type="number" id="creative" name="creative" value="0">
-      </div>
+        <div class="field">
+            <label for="creative">Creative</label>
+            <input type="number" id="creative" name="creative" value="0">
+        </div>
 
-      <div class="field">
-        <label for="outside">Going outside</label>
-        <input type="number" id="outside" name="outside">
-      </div>
-      <div class="field">
-        <label for="youtube">Watching YouTube</label>
-        <input type="number" id="youtube" name="youtube">
-      </div>
+        <div class="field">
+            <label for="outside">Going outside</label>
+            <input type="number" id="outside" name="outside">
+        </div>
+        <div class="field">
+            <label for="youtube">Watching YouTube</label>
+            <input type="number" id="youtube" name="youtube">
+        </div>
     </fieldset>
 
     <fieldset>
-      <legend>Well-being</legend>
+        <legend>Well-being</legend>
 
-      <div class="field">
-        <label for="shower">Last Shower</label>
-        <input type="time" id="shower" name="shower" value="">
-      </div>
+        <div class="field">
+            <label for="shower">Last Shower</label>
+            <input type="time" id="shower" name="shower" value="">
+        </div>
 
-      <div class="field">
-        <label for="work_late">Work late</label>
-        <input type="checkbox" id="work_late" name="work_late">
-      </div>
+        <div class="field">
+            <label for="work_late">Work late</label>
+            <input type="checkbox" id="work_late" name="work_late">
+        </div>
 
-      <div class="field">
-        <label for="workout">Workout</label>
-        <input type="checkbox" id="workout" name="workout">
-      </div>
+        <div class="field">
+            <label for="workout">Workout</label>
+            <input type="checkbox" id="workout" name="workout">
+        </div>
 
-      <div class="field">
-        <label for="sick">Sick</label>
-        <input type="checkbox" id="sick" name="sick">
-      </div>
+        <div class="field">
+            <label for="sick">Sick</label>
+            <input type="checkbox" id="sick" name="sick">
+        </div>
 
-      <div class="field">
-        <label for="porn">Porn</label>
-        <input type="checkbox" id="porn" name="porn">
-      </div>
+        <div class="field">
+            <label for="porn">Porn</label>
+            <input type="checkbox" id="porn" name="porn">
+        </div>
     </fieldset>
 
     <button id="submitButton">SUBMIT</button>
-  </form>
+</form>
 </body>
 <script>
   var supabaseClient = supabase.createClient('https://otlkqlgtytznkoyznznn.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90bGtxbGd0eXR6bmtveXpuem5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQzMzYwMjAsImV4cCI6MjAwOTkxMjAyMH0.02v7rS-lI7vgn0q_Fr5y9Av-1tuw-k-TWviJkQpNGhU');
@@ -313,6 +321,38 @@
 </script>
 <script>
   const ctx = document.getElementById('myChart');
+
+  class Row {
+    constructor({
+      date = "",
+      energy = 0,
+      last_coffee = "",
+      productivity = 0,
+      creative = 0,
+      social = 0,
+      went_to_bed = "",
+      woke_up = "",
+    }) {
+      this.date = date;
+      this.energy = energy;
+      this.lastCoffee = last_coffee;
+      this.productivity = productivity;
+      this.creative = creative;
+      this.social = social;
+      this.wentToBed = went_to_bed || '';
+      this.wokeUp = woke_up || '';
+    }
+  }
+
+  const nearestFifteen = (minutesString) => {
+    const minutes = parseInt(minutesString);
+    const nearest = Math.round(minutes / 15) * 15;
+
+    if (nearest === 60) return '00';
+    if (nearest === 0) return '00';
+    return nearest;
+  }
+
   async function buildChart() {
     const { data, error } = await supabaseClient
       .from('tracker')
@@ -326,43 +366,45 @@
     const productivityData = [];
     const creativityData = [];
     const socialData = [];
+    const totalSleepData = [];
+
 
     data
       .map(item => ({ ...item, timestamp: new Date(item.date) }))
       .sort((a, b) => a.timestamp - b.timestamp)
-      .forEach(({ date, energy, last_coffee, productivity, creative, social }) => {
-        energyData.push(energy);
-        // !labels.includes(date) &&
-        labels.push(date);
-        creativityData.push(creative);
-        productivityData.push(productivity);
-        socialData.push(social);
+      .forEach((item) => {
+        const row = new Row(item);
 
-        const hour = last_coffee?.split(":")[0];
-        const minute = last_coffee?.split(":")[1];
-        const year = date?.split("-")[0] || 0;
-        const month = date?.split("-")[1] || 0;
-        const day = date?.split("-")[2] || 0;
+        energyData.push(row.energy);
+        labels.push(row.date);
+        creativityData.push(row.creative);
+        productivityData.push(row.productivity);
+        socialData.push(row.social);
+        row.wentToBed && row.wokeUp && totalSleepData.push([
+          `${row.wentToBed?.split(":")[0]}:${nearestFifteen(row.wentToBed?.split(":")[1])}`,
+          `${row.wokeUp?.split(":")[0]}:${nearestFifteen(row.wokeUp?.split(":")[1])}`,
+        ]);
+        const hour = row.lastCoffee?.split(":")[0];
+        const minute = row.lastCoffee?.split(":")[1];
 
-        // if (hour && minute) {
-        // lastCoffee.push(new Date(year, month, day, hour, minute).toISOString());
-        lastCoffee.push(hour ? `${hour}:00` : null);
-        // }
+        lastCoffee.push(hour ? `${hour}:${nearestFifteen(minute)}` : null);
       });
-    const TwentyFourHours = [
-      '00:00', '01:00', '02:00', '03:00', '04:00', '05:00',
-      '06:00', '07:00', '08:00', '09:00', '10:00', '11:00',
-      '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
-      '18:00', '19:00', '20:00', '21:00', '22:00', '23:00',
-    ]
+    const TwentyFourHoursFifteenMinutesIntervals = Array.from(Array(24 * 4).keys()).map(i => {
+      const hour = Math.floor(i / 4);
+      const minute = i % 4 * 15;
+      return `${hour}:${minute === 0 ? '00' : minute}`;
+    });
 
     const ordered = labels.map(label => new Date(label).getTime()).sort().map(i => new Date(i).toLocaleString('en-GB', {
       day: 'numeric',
       month: 'short',
     }));
+
+    console.log({totalSleepData});
+
     new Chart(ctx, {
       data: {
-        labels: ordered,
+        labels: ['9 Sept', '10 Sept', '11 Sept', '12 Sept'],
         datasets: [{
           type: "line",
           label: 'Energy levels',
@@ -375,6 +417,12 @@
           type: 'line',
           label: 'Last coffee',
           data: lastCoffee,
+          borderWidth: 3,
+          yAxisID: 'y1',
+        }, {
+          type: 'bar',
+          label: 'Sleep',
+          data: totalSleepData,
           borderWidth: 3,
           yAxisID: 'y1',
         }, {
@@ -413,7 +461,7 @@
           y1: {
             adapter: 'luxon',
             type: 'category',
-            labels: TwentyFourHours,
+            labels: TwentyFourHoursFifteenMinutesIntervals,
             stack: true,
             time: {
               unit: 'hour'
